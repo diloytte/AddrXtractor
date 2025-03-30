@@ -1,6 +1,5 @@
 use regex::Regex;
 
-
 /// Extracts the first Ethereum-based address from a given text.
 ///
 /// This function looks for Ethereum addresses that start with `0x` followed by exactly 40 hexadecimal characters.

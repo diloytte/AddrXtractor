@@ -1,6 +1,5 @@
 use regex::Regex;
 
-
 /// Extracts the first Solana address from a given text.
 ///
 /// This function searches for Solana addresses, which are 44-character-long alphanumeric strings.

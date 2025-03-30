@@ -21,7 +21,7 @@ use regex::Regex;
 /// let result = extract_tron_address(text);
 /// assert_eq!(result, Some("TLa2f6VPqDgRE67v1736s7bJ8Ray5wYjU7".to_string()));
 /// ```
-/// 
+///
 pub fn extract_tron_address(text: &str) -> Option<String> {
     let pattern = Regex::new(r"\bT[a-zA-Z0-9]{33}\b").unwrap();
     pattern.find(text).map(|m| m.as_str().to_string())

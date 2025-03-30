@@ -40,7 +40,6 @@ pub static FUNCTIONS: &[fn(&str) -> Option<String>] = &[
 /// let result = extract_token_address_from_message_text(text);
 /// assert_eq!(result, Some("0xAb5801a7D398351b8bE11C439e05C5b3259aec9B".to_string()));
 /// ```
-
 pub fn extract_token_address_from_message_text(text: &str) -> Option<String> {
     let mut final_token_address: Option<String> = None;
     let len = FUNCTIONS.len();
@@ -57,7 +56,6 @@ pub fn extract_token_address_from_message_text(text: &str) -> Option<String> {
 
     final_token_address
 }
-
 
 #[cfg(test)]
 mod tests {
