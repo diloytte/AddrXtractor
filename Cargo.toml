@@ -9,7 +9,7 @@ homepage = "https://github.com/diloytte/AddrXtractor"
 readme = "README.md"
 description = "Library for extracting blockchain addresses from text."
 keywords = ["crypto", "address", "extract", "token", "blockchain"]
-categories = ["development-tools","text-processing,cryptography::cryptocurrencies"]
+categories = ["development-tools","text-processing","cryptography::cryptocurrencies"]
 
 
 [dependencies]
