@@ -2,6 +2,14 @@
 name = "token_address_extractor"
 version = "0.1.0"
 edition = "2024"
+authors = ["mail@diloytte.com"]
+license = "MIT"
+repository = "https://github.com/diloytte/AddrXtractor"
+homepage = "https://github.com/diloytte/AddrXtractor"
+readme = "README.md"
+keywords = ["crypto, address, extract, token, blockchain"]
+categories = ["development-tools","text-processing,cryptography::cryptocurrencies"]
+
 
 [dependencies]
 regex = "1.11.1"
