@@ -1,4 +1,4 @@
-use regex::Regex;
+use crate::regexes::SOLANA_ADDRESS_REGEX;
 
 /// Extracts the first Solana address from a given text.
 ///
@@ -17,12 +17,14 @@ use regex::Regex;
 /// # Examples
 ///
 /// ```
+/// use token_address_extractor::extract_solana_address;
+/// 
 /// let text = "A sample text with a Solana address: frhb8l7y9qq41qzxyltc2nw8an1rjfllxrf2x9rwllmo";
 /// let result = extract_solana_address(text);
 /// assert_eq!(result, Some("frhb8l7y9qq41qzxyltc2nw8an1rjfllxrf2x9rwllmo".to_string()));
 /// ```
 pub fn extract_solana_address(text: &str) -> Option<String> {
-    let pattern = Regex::new(r"\b[a-zA-Z0-9]{44}\b").unwrap();
+    let pattern = &SOLANA_ADDRESS_REGEX;
     pattern.find(text).map(|m| m.as_str().to_string())
 }
 

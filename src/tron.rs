@@ -1,4 +1,4 @@
-use regex::Regex;
+use crate::regexes::TRON_ADDRESS_REGEX;
 
 /// Extracts the first Tron address from a given text.
 ///
@@ -17,13 +17,15 @@ use regex::Regex;
 /// # Examples
 ///
 /// ```
+/// use token_address_extractor::extract_tron_address;
+/// 
 /// let text = "Some text with a Tron address: TLa2f6VPqDgRE67v1736s7bJ8Ray5wYjU7";
 /// let result = extract_tron_address(text);
 /// assert_eq!(result, Some("TLa2f6VPqDgRE67v1736s7bJ8Ray5wYjU7".to_string()));
 /// ```
 ///
 pub fn extract_tron_address(text: &str) -> Option<String> {
-    let pattern = Regex::new(r"\bT[a-zA-Z0-9]{33}\b").unwrap();
+    let pattern = &TRON_ADDRESS_REGEX;
     pattern.find(text).map(|m| m.as_str().to_string())
 }
 

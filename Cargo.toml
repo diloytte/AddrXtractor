@@ -1,6 +1,6 @@
 [package]
 name = "token_address_extractor"
-version = "0.1.0"
+version = "1.0.0"
 edition = "2024"
 authors = ["mail@diloytte.com"]
 license = "MIT"
@@ -13,4 +13,5 @@ categories = ["development-tools","text-processing","cryptography::cryptocurrenc
 
 
 [dependencies]
+once_cell = "1.21.3"
 regex = "1.11.1"

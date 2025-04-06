@@ -1,4 +1,4 @@
-use regex::Regex;
+use crate::regexes::ETHEREUM_ADDRESS_REGEX;
 
 /// Extracts the first Ethereum-based address from a given text.
 ///
@@ -17,12 +17,14 @@ use regex::Regex;
 /// # Examples
 ///
 /// ```
+/// use token_address_extractor::extract_ethereum_based_address;
+/// 
 /// let text = "Random text with an address: 0xAb5801a7D398351b8bE11C439e05C5b3259aec9B";
 /// let result = extract_ethereum_based_address(text);
 /// assert_eq!(result, Some("0xAb5801a7D398351b8bE11C439e05C5b3259aec9B".to_string()));
 /// ```
 pub fn extract_ethereum_based_address(text: &str) -> Option<String> {
-    let pattern = Regex::new(r"\b0x[a-fA-F0-9]{40}\b").unwrap();
+    let pattern = &ETHEREUM_ADDRESS_REGEX;
     pattern.find(text).map(|m| m.as_str().to_string())
 }
 

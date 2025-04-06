@@ -1,3 +1,4 @@
+mod regexes;
 mod ethereum_based;
 mod solana;
 mod tron;
@@ -36,6 +37,8 @@ pub static FUNCTIONS: &[fn(&str) -> Option<String>] = &[
 /// # Examples
 ///
 /// ```
+/// use token_address_extractor::extract_token_address_from_message_text;
+/// 
 /// let text = "Some text with an Ethereum address: 0xAb5801a7D398351b8bE11C439e05C5b3259aec9B";
 /// let result = extract_token_address_from_message_text(text);
 /// assert_eq!(result, Some("0xAb5801a7D398351b8bE11C439e05C5b3259aec9B".to_string()));
