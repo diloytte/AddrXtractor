@@ -84,4 +84,13 @@ mod tests {
         let result = extract_solana_address(input);
         assert_eq!(expected_address, result);
     }
+
+    #[test]
+    fn test_link_photon() {
+        let input = "https://photon-sol.tinyastro.io/en/lp/FtpuprhMrBqhEGTTTiFZDHRnpwiAU2ryAN8VJ7G1Dhyy?handle=13750337e9c16b15406821";
+        let expected_address = Some("FtpuprhMrBqhEGTTTiFZDHRnpwiAU2ryAN8VJ7G1Dhyy".to_string());
+
+        let result = extract_solana_address(input);
+        assert_eq!(expected_address, result);
+    }
 }
