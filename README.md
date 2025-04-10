@@ -12,7 +12,7 @@ To use this crate in your Rust project, add the following dependency to your `Ca
 
 ```toml
 [dependencies]
-extract-blockchain-address = "1.0.1"
+extract-blockchain-address = "1.1.0"
 ```
 
 ## Usage

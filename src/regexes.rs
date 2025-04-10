@@ -2,7 +2,7 @@ use once_cell::sync::Lazy;
 use regex::Regex;
 
 pub static SOLANA_ADDRESS_REGEX: Lazy<Regex> = Lazy::new(|| {
-    Regex::new(r"\b[a-zA-Z0-9]{44}\b").unwrap()
+    Regex::new(r"\b[a-zA-Z0-9]{43,44}\b").unwrap()
 });
 
 pub static TRON_ADDRESS_REGEX: Lazy<Regex> = Lazy::new(|| {

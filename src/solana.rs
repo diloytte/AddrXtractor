@@ -93,4 +93,15 @@ mod tests {
         let result = extract_solana_address(input);
         assert_eq!(expected_address, result);
     }
+
+
+    #[test]
+    fn test_43() {
+        let input = "test test test CA:J73GTrhWEofgZqBjLLaxA9uN63urYJoaUcqjxMppump $HDR test test test";
+        let expected_address = Some("J73GTrhWEofgZqBjLLaxA9uN63urYJoaUcqjxMppump".to_string());
+
+        let result = extract_solana_address(input);
+        assert_eq!(expected_address, result);
+    }
+
 }

@@ -1,3 +1,7 @@
+[1.1.0] - 2025-04-10
+Changed
+Added so that Solana address can be either 43 or 44 characters length.
+
 [1.0.1] - 2025-04-10
 Changed
 Updated README.md.
