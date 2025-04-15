@@ -28,6 +28,21 @@ pub fn extract_solana_address(text: &str) -> Option<String> {
     pattern.find(text).map(|m| m.as_str().to_string())
 }
 
+
+pub fn extract_all_solana_addresses(text: &str) -> Vec<String> {
+    let pattern = &SOLANA_ADDRESS_REGEX;
+    pattern.find_iter(text).map(|m| m.as_str().to_string()).collect()
+}
+
+///
+/// 
+/// best entry on $DB
+// Such a bullish chart
+// https://axiom.trade/meme/4mLVKoaTB8C2KotdrmKtU8ryx95QZaztNRScjBRr7PjE
+// 43SXvpf4c41t2uErsw7aL6w5qhnie6BXSSPqiTcTpump
+// ovo mora zbog ovog razloga, nadji jednostavno sve.
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -102,6 +117,63 @@ mod tests {
 
         let result = extract_solana_address(input);
         assert_eq!(expected_address, result);
+    }
+
+
+    #[test]
+    fn test_dex() {
+        let input = "https://dexscreener.com/solana/dcqnsnwcblgeyw6vgbpnlzrr8pbbjovergra8qapguhw";
+        let expected_address = Some("dcqnsnwcblgeyw6vgbpnlzrr8pbbjovergra8qapguhw".to_string());
+
+        let result = extract_solana_address(input);
+        assert_eq!(expected_address, result);
+    }
+
+    #[test]
+    fn test_extract_all_solana_addresses_none() {
+        let input = "There are no valid Solana addresses here!";
+        let result = extract_all_solana_addresses(input);
+        assert!(result.is_empty());
+    }
+
+    #[test]
+    fn test_extract_all_solana_addresses_single() {
+        let input = "Here is one: frhb8l7y9qq41qzxyltc2nw8an1rjfllxrf2x9rwllmo";
+        let expected = vec!["frhb8l7y9qq41qzxyltc2nw8an1rjfllxrf2x9rwllmo".to_string()];
+        let result = extract_all_solana_addresses(input);
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn test_extract_all_solana_addresses_multiple() {
+        let input = "
+            frhb8l7y9qq41qzxyltc2nw8an1rjfllxrf2x9rwllmo
+            some random text
+            4nLgH9D5bPQoGeXkP9eXhCTRYD5U5YBKnPXaM1D9U6uj
+            another line
+            dcqnsnwcblgeyw6vgbpnlzrr8pbbjovergra8qapguhw
+        ";
+        let expected = vec![
+            "frhb8l7y9qq41qzxyltc2nw8an1rjfllxrf2x9rwllmo".to_string(),
+            "4nLgH9D5bPQoGeXkP9eXhCTRYD5U5YBKnPXaM1D9U6uj".to_string(),
+            "dcqnsnwcblgeyw6vgbpnlzrr8pbbjovergra8qapguhw".to_string(),
+        ];
+        let result = extract_all_solana_addresses(input);
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn test_extract_all_solana_addresses_with_links() {
+        let input = "
+            https://dexscreener.com/solana/6UeL7hzjCzKBqKap8vtay6SfCaCkQAUpidTWayrwpump
+            https://photon-sol.tinyastro.io/en/lp/FtpuprhMrBqhEGTTTiFZDHRnpwiAU2ryAN8VJ7G1Dhyy
+        ";
+        let expected = vec![
+            "6UeL7hzjCzKBqKap8vtay6SfCaCkQAUpidTWayrwpump".to_string(),
+            "FtpuprhMrBqhEGTTTiFZDHRnpwiAU2ryAN8VJ7G1Dhyy".to_string(),
+        ];
+        let result = extract_all_solana_addresses(input);
+        assert_eq!(result, expected);
     }
 
 }

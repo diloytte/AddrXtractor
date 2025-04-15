@@ -4,7 +4,7 @@ mod solana;
 mod tron;
 
 pub use ethereum_based::extract_ethereum_based_address;
-pub use solana::extract_solana_address;
+pub use solana::*;
 pub use tron::extract_tron_address;
 
 /// A collection of functions that extract blockchain addresses.
