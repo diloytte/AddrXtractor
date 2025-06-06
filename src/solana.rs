@@ -1,9 +1,11 @@
-use crate::regexes::SOLANA_ADDRESS_REGEX;
+use crate::{regexes::SOLANA_ADDRESS_REGEX, Blockchain};
 
-/// Extracts the first Solana address from a given text.
+/// Extracts the first Solana address from a given text and identifies the blockchain.
 ///
-/// This function searches for Solana addresses, which are 44-character-long alphanumeric strings.
-/// If an address is found, it returns the first occurrence as a `String`. Otherwise, it returns `None`.
+/// This function searches the input text for a valid Solana address, which is typically
+/// a 44-character-long base58 string (alphanumeric, case-sensitive).
+/// If a valid address is found, it returns the first match along with the
+/// `Blockchain::Solana` enum variant.
 ///
 /// # Arguments
 ///
@@ -11,21 +13,23 @@ use crate::regexes::SOLANA_ADDRESS_REGEX;
 ///
 /// # Returns
 ///
-/// * `Some(String)` containing the first Solana address found.
-/// * `None` if no valid address is found.
+/// * `(Some(String), Blockchain::Solana)` if a valid Solana address is found.
+/// * `(None, Blockchain::Solana)` if no valid address is found.
 ///
 /// # Examples
 ///
 /// ```
-/// use token_address_extractor::extract_solana_address;
-/// 
+/// use token_address_extractor::{extract_solana_address, Blockchain};
+///
 /// let text = "A sample text with a Solana address: frhb8l7y9qq41qzxyltc2nw8an1rjfllxrf2x9rwllmo";
-/// let result = extract_solana_address(text);
-/// assert_eq!(result, Some("frhb8l7y9qq41qzxyltc2nw8an1rjfllxrf2x9rwllmo".to_string()));
+/// let (address, blockchain) = extract_solana_address(text);
+/// assert_eq!(address, Some("frhb8l7y9qq41qzxyltc2nw8an1rjfllxrf2x9rwllmo".to_string()));
+/// assert_eq!(blockchain, Blockchain::Solana);
 /// ```
-pub fn extract_solana_address(text: &str) -> Option<String> {
+
+pub fn extract_solana_address(text: &str) -> (Option<String>,Blockchain) {
     let pattern = &SOLANA_ADDRESS_REGEX;
-    pattern.find(text).map(|m| m.as_str().to_string())
+    (pattern.find(text).map(|m| m.as_str().to_string()),Blockchain::Solana)
 }
 
 
@@ -61,7 +65,7 @@ mod tests {
         let expected_address = Some("frhb8l7y9qq41qzxyltc2nw8an1rjfllxrf2x9rwllmo".to_string());
 
         let result = extract_solana_address(input);
-        assert_eq!(result, expected_address);
+        assert_eq!(result.0, expected_address);
     }
 
     #[test]
@@ -73,7 +77,7 @@ mod tests {
         let expected_address = None;
 
         let result = extract_solana_address(input);
-        assert_eq!(result, expected_address);
+        assert_eq!(result.0, expected_address);
     }
 
     #[test]
@@ -88,7 +92,7 @@ mod tests {
         let expected_address = Some("frhb8l7y9qq41qzxyltc2nw8an1rjfllxrf2x9rwllmo".to_string());
 
         let result = extract_solana_address(input);
-        assert_eq!(result, expected_address);
+        assert_eq!(result.0, expected_address);
     }
 
     #[test]
@@ -97,7 +101,7 @@ mod tests {
         let expected_address = Some("6UeL7hzjCzKBqKap8vtay6SfCaCkQAUpidTWayrwpump".to_string());
 
         let result = extract_solana_address(input);
-        assert_eq!(expected_address, result);
+        assert_eq!(expected_address, result.0);
     }
 
     #[test]
@@ -106,7 +110,7 @@ mod tests {
         let expected_address = Some("FtpuprhMrBqhEGTTTiFZDHRnpwiAU2ryAN8VJ7G1Dhyy".to_string());
 
         let result = extract_solana_address(input);
-        assert_eq!(expected_address, result);
+        assert_eq!(expected_address, result.0);
     }
 
 
@@ -116,7 +120,7 @@ mod tests {
         let expected_address = Some("J73GTrhWEofgZqBjLLaxA9uN63urYJoaUcqjxMppump".to_string());
 
         let result = extract_solana_address(input);
-        assert_eq!(expected_address, result);
+        assert_eq!(expected_address, result.0);
     }
 
 
@@ -126,7 +130,7 @@ mod tests {
         let expected_address = Some("dcqnsnwcblgeyw6vgbpnlzrr8pbbjovergra8qapguhw".to_string());
 
         let result = extract_solana_address(input);
-        assert_eq!(expected_address, result);
+        assert_eq!(expected_address, result.0);
     }
 
     #[test]

@@ -1,3 +1,7 @@
+[1.2.1] - 2025-06-06
+Chanaged
+Updated all `extract_*_address` functions to return a tuple `(Option<String>, Blockchain)` instead of just `Option<String>`.
+
 [1.2.0] - 2025-04-15
 Changed  
 Added extracting multiple solana address trought new `extract_all_solana_addresses` function.

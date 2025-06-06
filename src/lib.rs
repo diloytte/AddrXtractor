@@ -7,6 +7,14 @@ pub use ethereum_based::extract_ethereum_based_address;
 pub use solana::*;
 pub use tron::extract_tron_address;
 
+
+#[derive(Debug,PartialEq)]
+pub enum Blockchain {
+    Solana,
+    EthereumBased,
+    Tron
+}
+
 /// A collection of functions that extract blockchain addresses.
 ///
 /// Currently supports Ethereum-based, Solana, and Tron addresses.
@@ -14,7 +22,7 @@ pub use tron::extract_tron_address;
 /// ERC20/SPL token contract addresses.
 ///
 /// TODO: Improve extraction to handle ERC20/SPL token address and not just any addrss..
-pub static FUNCTIONS: &[fn(&str) -> Option<String>] = &[
+pub static FUNCTIONS: &[fn(&str) -> (Option<String>,Blockchain)] = &[
     extract_ethereum_based_address,
     extract_solana_address,
     extract_tron_address,
@@ -50,7 +58,7 @@ pub fn extract_token_address_from_message_text(text: &str) -> Option<String> {
     for i in 0..len {
         let extractor_function = FUNCTIONS.get(i);
         let extracted_address_option = extractor_function.unwrap()(text);
-        final_token_address = extracted_address_option;
+        final_token_address = extracted_address_option.0;
 
         if final_token_address.is_some() {
             break;
