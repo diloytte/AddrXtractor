@@ -1,3 +1,6 @@
+[1.2.2] - 2025-06-06
+Changed
+Updated global function for extraction to return blockchain parameter.
 [1.2.1] - 2025-06-06
 Chanaged
 Updated all `extract_*_address` functions to return a tuple `(Option<String>, Blockchain)` instead of just `Option<String>`.

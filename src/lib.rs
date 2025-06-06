@@ -28,10 +28,11 @@ pub static FUNCTIONS: &[fn(&str) -> (Option<String>,Blockchain)] = &[
     extract_tron_address,
 ];
 
-/// Extracts the first token address (Ethereum-based, Solana, or Tron) found in a given text.
+/// Extracts the first token address (Ethereum-based, Solana, or Tron) found in a given text,
+/// along with the blockchain it belongs to.
 ///
-/// This function iterates through different blockchain address extraction functions
-/// and returns the first valid match found.
+/// This function iterates through a set of blockchain address extraction functions and returns
+/// the first valid address it finds, along with its corresponding `Blockchain` variant.
 ///
 /// # Arguments
 ///
@@ -39,20 +40,24 @@ pub static FUNCTIONS: &[fn(&str) -> (Option<String>,Blockchain)] = &[
 ///
 /// # Returns
 ///
-/// * `Some(String)` containing the first valid blockchain address found.
-/// * `None` if no valid address is found.
+/// * A tuple `(Option<String>, Blockchain)`:
+///   - `Some(String)` containing the first valid address found.
+///   - `Blockchain` indicating the blockchain type (`EthereumBased`, `Solana`, or `Tron`).
 ///
 /// # Examples
 ///
 /// ```
-/// use token_address_extractor::extract_token_address_from_message_text;
-/// 
+/// use token_address_extractor::{extract_token_address_from_message_text, Blockchain};
+///
 /// let text = "Some text with an Ethereum address: 0xAb5801a7D398351b8bE11C439e05C5b3259aec9B";
-/// let result = extract_token_address_from_message_text(text);
-/// assert_eq!(result, Some("0xAb5801a7D398351b8bE11C439e05C5b3259aec9B".to_string()));
+/// let (address, chain) = extract_token_address_from_message_text(text);
+/// assert_eq!(address, Some("0xAb5801a7D398351b8bE11C439e05C5b3259aec9B".to_string()));
+/// assert_eq!(chain, Blockchain::EthereumBased);
 /// ```
-pub fn extract_token_address_from_message_text(text: &str) -> Option<String> {
+
+pub fn extract_token_address_from_message_text(text: &str) -> (Option<String>,Blockchain) {
     let mut final_token_address: Option<String> = None;
+    let mut blockchain : Option<Blockchain> = None;
     let len = FUNCTIONS.len();
 
     for i in 0..len {
@@ -60,12 +65,14 @@ pub fn extract_token_address_from_message_text(text: &str) -> Option<String> {
         let extracted_address_option = extractor_function.unwrap()(text);
         final_token_address = extracted_address_option.0;
 
+        blockchain = Some(extracted_address_option.1);
+
         if final_token_address.is_some() {
             break;
         }
     }
 
-    final_token_address
+    (final_token_address,blockchain.unwrap())
 }
 
 #[cfg(test)]
@@ -80,7 +87,7 @@ mod tests {
 
         let result = extract_token_address_from_message_text(ethereum_text);
 
-        assert_eq!(result, expected_address);
+        assert_eq!(result.0, expected_address);
     }
 
     #[test]
@@ -91,7 +98,7 @@ mod tests {
 
         let result = extract_token_address_from_message_text(solana_text);
 
-        assert_eq!(result, expected_address);
+        assert_eq!(result.0, expected_address);
     }
 
     #[test]
@@ -101,7 +108,7 @@ mod tests {
 
         let result = extract_token_address_from_message_text(tron_text);
 
-        assert_eq!(result, expected_address);
+        assert_eq!(result.0, expected_address);
     }
 
     #[test]
@@ -110,6 +117,6 @@ mod tests {
 
         let result = extract_token_address_from_message_text(text);
 
-        assert_eq!(result, None);
+        assert_eq!(result.0, None);
     }
 }
